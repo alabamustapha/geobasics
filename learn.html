@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Learn Country Flags</title>
+  <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>📚 Learn Country Flags</h1>
+    <p class="sub">Browse flags by region and subregion.</p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Choose a Region</h2>
+
+      <div class="row">
+        <label class="label">
+          Region
+          <select id="regionSelect"></select>
+        </label>
+
+        <label class="label">
+          Sub-region
+          <select id="subregionSelect"></select>
+        </label>
+      </div>
+
+      <hr class="sep" />
+
+      <div class="row" style="justify-content:space-between; align-items:center;">
+        <div class="badge" id="summaryBadge">Available: 0 countries</div>
+        <div class="row" style="gap:8px; align-items:center;">
+          <label class="pill" title="Make text and flags larger for kids">
+            <input type="checkbox" id="kidsToggle" />
+            Full Mode (Kids)
+          </label>
+          <a href="index.html" class="btn">Back to Game</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="question-area">
+        <div id="prompt" class="prompt">Flag and country will appear below.</div>
+        <div id="flagHolder" class="flag-holder">
+          <img id="flagImg" alt="Flag" />
+        </div>
+        <div class="big" id="countryName">—</div>
+        <div class="score" style="justify-content:flex-start;">
+          <span>Progress: <strong id="progressText">0/0</strong></span>
+        </div>
+        <div class="footerbar" style="gap:8px; justify-content:space-between;">
+          <a href="index.html" class="btn">Back to Menu</a>
+          <div style="display:flex; gap:8px;">
+            <button id="prevBtn" class="btn">Prev</button>
+            <button id="nextBtn" class="btn btn-primary">Next</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>Learning mode — simple browsing of flags and names.</small>
+  </footer>
+
+  <script src="learn.js"></script>
+</body>
+</html>

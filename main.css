@@ -202,6 +202,11 @@ input[type="text"]::placeholder{color:#8190b7}
   display:flex;
   justify-content:flex-end;
 }
+/* Full mode hides non-essential UI on learn page */
+.full-mode .header{display:none !important}
+.full-mode .container > .card:first-of-type{display:none !important}
+.full-mode .prompt{display:none !important}
+.full-mode .score{font-size:18px}
 
 .big{font-size:18px; color:var(--muted)}
 .review{
@@ -272,3 +277,15 @@ code{color:#cfe1ff}
   70%{transform:translate(-50%,-50%) scale(1); opacity:1}
   100%{transform:translate(-50%,-50%) scale(.96); opacity:0}
 }
+
+/* Full Mode (Kids) */
+.full-mode .header h1{font-size:34px}
+.full-mode .sub{font-size:18px}
+.full-mode .prompt{font-size:26px}
+.full-mode .big{font-size:30px}
+.full-mode select,
+.full-mode input[type="text"]{padding:14px 16px; font-size:18px}
+.full-mode .btn{padding:14px 18px; font-size:18px}
+.full-mode .badge{font-size:16px}
+.full-mode .option-btn{padding:16px; font-size:18px}
+.full-mode .flag-holder img{width:min(620px, 96vw)}
