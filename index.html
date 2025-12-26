@@ -41,6 +41,10 @@
           <input type="radio" name="answerMode" value="input" />
           Type the Country Name
         </label>
+        <label class="pill">
+          <input type="radio" name="answerMode" value="typeThenPick" />
+          Type Name → Pick Flag
+        </label>
       </div>
 
       <h3>Question Type</h3>
@@ -94,6 +98,12 @@
         <div id="flagHolder" class="flag-holder">
           <img id="flagImg" alt="Flag" />
         </div>
+
+        <!-- Country selection for Type→Pick mode -->
+        <form id="chooseCountryForm" class="hidden">
+          <select id="countrySelect"></select>
+          <button class="btn btn-primary" type="submit">Choose</button>
+        </form>
 
         <!-- Input mode -->
         <form id="answerForm" class="hidden">

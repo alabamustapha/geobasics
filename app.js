@@ -36,6 +36,7 @@ let score = 0;
 let answerMode = "mcq";        // "mcq" | "input"
 let questionType = "flagToName"; // "flagToName" | "nameToFlag"
 let totalQuestions = 10;
+let stepPhase = null; // for hybrid modes like typeThenPick: 'type' | 'pick'
 
 let lastResults = []; // review at the end
 
@@ -67,6 +68,8 @@ const flagHolder = $("flagHolder");
 
 const answerForm = $("answerForm");
 const answerInput = $("answerInput");
+const chooseCountryForm = $("chooseCountryForm");
+const countrySelect = $("countrySelect");
 
 const optionsEl = $("options");
 
@@ -93,18 +96,30 @@ async function loadDB() {
 // ---------- Build Region/Subregion selects ----------
 function buildLevelSelectors() {
   const regions = unique(DB.map(c => c.region)).sort();
-  regionSelect.innerHTML = regions.map(r => `<option value="${r}">${r}</option>`).join("");
+  const regionOptions = [
+    { value: "__ALL__", label: "All Regions" },
+    ...regions.map(r => ({ value: r, label: r }))
+  ];
+  regionSelect.innerHTML = regionOptions.map(o => `<option value="${o.value}">${o.label}</option>`).join("");
 
   regionSelect.addEventListener("change", () => {
     populateSubregions(regionSelect.value);
   });
 
-  populateSubregions(regionSelect.value || regions[0]);
+  populateSubregions(regionSelect.value || regionOptions[0].value);
 }
 
 function populateSubregions(region) {
+  if (region === "__ALL__") {
+    subregionSelect.innerHTML = `<option value="__ALL__">All Subregions</option>`;
+    return;
+  }
   const subs = unique(DB.filter(c => c.region === region).map(c => c.subregion)).sort();
-  subregionSelect.innerHTML = subs.map(s => `<option value="${s}">${s}</option>`).join("");
+  const subOptions = [
+    { value: "__ALL__", label: "All Subregions" },
+    ...subs.map(s => ({ value: s, label: s }))
+  ];
+  subregionSelect.innerHTML = subOptions.map(s => `<option value="${s.value}">${s.label}</option>`).join("");
 }
 
 // ---------- Read radio selection ----------
@@ -199,7 +214,16 @@ function startGame() {
   const region = regionSelect.value;
   const subregion = subregionSelect.value;
 
-  currentPool = DB.filter(c => c.region === region && c.subregion === subregion);
+  // Build pool based on region/subregion including ALL options
+  if (region === "__ALL__" && subregion === "__ALL__") {
+    currentPool = [...DB];
+  } else if (region !== "__ALL__" && subregion === "__ALL__") {
+    currentPool = DB.filter(c => c.region === region);
+  } else if (region === "__ALL__" && subregion !== "__ALL__") {
+    currentPool = DB.filter(c => c.subregion === subregion);
+  } else {
+    currentPool = DB.filter(c => c.region === region && c.subregion === subregion);
+  }
 
   if (currentPool.length < 2) {
     alert("Not enough countries in this level. Please add more in data/countries.json.");
@@ -215,9 +239,12 @@ function startGame() {
   qTotalEl.textContent = String(questions.length);
   qIndexEl.textContent = String(qPointer + 1);
 
-  levelLabel.textContent = `${region} • ${subregion}`;
-  modeLabel.textContent =
-    `${answerMode === "mcq" ? "Options" : "Type"} • ${questionType === "flagToName" ? "Flag→Name" : "Name→Flag"}`;
+  const regionLabel = region === "__ALL__" ? "All Regions" : region;
+  const subregionLabel = subregion === "__ALL__" ? "All Subregions" : subregion;
+  levelLabel.textContent = `${regionLabel} • ${subregionLabel}`;
+  const modeName =
+    answerMode === "mcq" ? "Options" : (answerMode === "typeThenPick" ? "Type→Pick" : "Type");
+  modeLabel.textContent = `${modeName} • ${questionType === "flagToName" ? "Flag→Name" : "Name→Flag"}`;
 
   showScreen("game");
   renderQuestion();
@@ -235,7 +262,7 @@ function renderQuestion() {
   qIndexEl.textContent = String(qPointer + 1);
   scoreEl.textContent = String(score);
 
-  // Decide what we show:
+  // Decide what we show (base message for non-hybrid modes):
   if (questionType === "flagToName") {
     promptEl.textContent = "Which country has this flag?";
     flagImg.src = flagUrl(correct.code);
@@ -255,11 +282,27 @@ function renderQuestion() {
     answerForm.classList.remove("hidden");
     answerInput.value = "";
     answerInput.focus();
+    stepPhase = null;
+  } else if (answerMode === "typeThenPick") {
+    // Step 1: list available countries to choose from
+    promptEl.textContent = "Select a country name to quiz:";
+    flagHolder.classList.add("hidden");
+    answerForm.classList.add("hidden");
+    optionsEl.classList.add("hidden");
+    populateCountrySelect(currentPool);
+    chooseCountryForm.classList.remove("hidden");
+    stepPhase = "choose";
   } else {
     answerForm.classList.add("hidden");
     optionsEl.classList.remove("hidden");
     renderOptions(correct);
+    stepPhase = null;
   }
+}
+
+function populateCountrySelect(pool) {
+  const items = [...pool].sort((a, b) => a.name.localeCompare(b.name));
+  countrySelect.innerHTML = items.map(c => `<option value="${c.code}">${c.name}</option>`).join("");
 }
 
 function renderOptions(correct) {
@@ -309,6 +352,7 @@ function checkAnswer({ pickedName, pickedCode, typedText } = {}) {
 
   let isCorrect = false;
   let pickedLabel = "";
+  let typedLabel = undefined;
 
   if (questionType === "flagToName") {
     const expected = normalize(correct.name);
@@ -341,6 +385,7 @@ function checkAnswer({ pickedName, pickedCode, typedText } = {}) {
     questionType,
     answerMode,
     picked: pickedLabel,
+    typed: typedText || null,
     wasCorrect: isCorrect
   });
 
@@ -414,7 +459,44 @@ nextBtn.addEventListener("click", nextQuestion);
 answerForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const typed = answerInput.value;
-  checkAnswer({ typedText: typed });
+  if (answerMode === "typeThenPick") {
+    // In new logic, we don't use text input; ignore.
+    return;
+  } else {
+    checkAnswer({ typedText: typed });
+  }
+});
+
+chooseCountryForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (answerMode !== "typeThenPick") return;
+  const q = questions[qPointer];
+  const code = countrySelect.value;
+  const chosen = currentPool.find(c => c.code === code);
+  if (!chosen) return;
+  // Set the chosen as the correct for this question
+  q.correct = chosen;
+  // Step 2: show 4 flags to pick
+  promptEl.textContent = `Pick the flag of: ${chosen.name}`;
+  chooseCountryForm.classList.add("hidden");
+  optionsEl.innerHTML = "";
+  const codes = buildFlagOptions(currentPool, chosen.code, 4);
+  optionsEl.classList.remove("hidden");
+  flagHolder.classList.add("hidden");
+  codes.forEach(codeOpt => {
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.type = "button";
+    btn.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <img src="${flagUrl(codeOpt)}" alt="Flag option" style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.08);" />
+        <div style="opacity:.9;font-size:13px;">Select</div>
+      </div>
+    `;
+    btn.addEventListener("click", () => checkAnswer({ pickedCode: codeOpt }));
+    optionsEl.appendChild(btn);
+  });
+  stepPhase = "pick";
 });
 
 playAgainBtn.addEventListener("click", () => {
