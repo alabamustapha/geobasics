@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Country Flags Learning Game</title>
+  <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>🌍 Country Flags Learning Game</h1>
+    <p class="sub">Learn countries by region — levels by sub-region.</p>
+  </header>
+
+  <main class="container">
+    <!-- SETUP / MENU -->
+    <section id="screen-menu" class="card">
+      <h2>Choose a Level</h2>
+
+      <div class="row">
+        <label class="label">
+          Region
+          <select id="regionSelect"></select>
+        </label>
+
+        <label class="label">
+          Sub-region (Level)
+          <select id="subregionSelect"></select>
+        </label>
+      </div>
+
+      <hr class="sep" />
+
+      <h3>Game Mode</h3>
+      <div class="row">
+        <label class="pill">
+          <input type="radio" name="answerMode" value="mcq" checked />
+          Options (Multiple Choice)
+        </label>
+        <label class="pill">
+          <input type="radio" name="answerMode" value="input" />
+          Type the Country Name
+        </label>
+      </div>
+
+      <h3>Question Type</h3>
+      <div class="row">
+        <label class="pill">
+          <input type="radio" name="questionType" value="flagToName" checked />
+          Show Flag → Guess Name
+        </label>
+        <label class="pill">
+          <input type="radio" name="questionType" value="nameToFlag" />
+          Show Name → Pick Flag
+        </label>
+      </div>
+
+      <div class="row row-actions">
+        <label class="label">
+          Number of questions
+          <select id="numQuestions">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+        </label>
+
+        <button id="startBtn" class="btn btn-primary">Start</button>
+      </div>
+
+      <p class="hint">
+        Tip: You can add more countries in <code>data/countries.json</code>.
+      </p>
+    </section>
+
+    <!-- GAME -->
+    <section id="screen-game" class="card hidden">
+      <div class="topbar">
+        <div class="meta">
+          <div id="levelLabel" class="badge"></div>
+          <div id="modeLabel" class="badge badge-soft"></div>
+        </div>
+
+        <div class="score">
+          <span>Score: <strong id="score">0</strong></span>
+          <span>Question: <strong id="qIndex">1</strong>/<strong id="qTotal">10</strong></span>
+        </div>
+      </div>
+
+      <div class="question-area">
+        <div id="prompt" class="prompt"></div>
+
+        <div id="flagHolder" class="flag-holder">
+          <img id="flagImg" alt="Flag" />
+        </div>
+
+        <!-- Input mode -->
+        <form id="answerForm" class="hidden">
+          <input id="answerInput" type="text" autocomplete="off" placeholder="Type country name..." />
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+
+        <!-- MCQ mode -->
+        <div id="options" class="options hidden"></div>
+
+        <div class="feedback">
+          <div id="feedbackText"></div>
+          <button id="nextBtn" class="btn hidden">Next</button>
+        </div>
+      </div>
+
+      <div class="footerbar">
+        <button id="quitBtn" class="btn btn-ghost">Quit</button>
+      </div>
+    </section>
+
+    <!-- RESULT -->
+    <section id="screen-result" class="card hidden">
+      <h2>🎉 Level Complete!</h2>
+      <p class="big">
+        You scored <strong id="finalScore">0</strong> out of <strong id="finalTotal">0</strong>.
+      </p>
+
+      <div id="review" class="review"></div>
+
+      <div class="row row-actions">
+        <button id="playAgainBtn" class="btn btn-primary">Play Again</button>
+        <button id="backToMenuBtn" class="btn">Back to Menu</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>Built with HTML/CSS/JS — friendly for GitHub Pages.</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

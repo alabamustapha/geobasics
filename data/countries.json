@@ -1,0 +1,326 @@
+[
+  {
+    "name": "Algeria",
+    "code": "dz",
+    "region": "Africa",
+    "subregion": "North Africa"
+  },
+  {
+    "name": "Angola",
+    "code": "ao",
+    "region": "Africa",
+    "subregion": "Southern Africa"
+  },
+  {
+    "name": "Benin",
+    "code": "bj",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Botswana",
+    "code": "bw",
+    "region": "Africa",
+    "subregion": "Southern Africa"
+  },
+  {
+    "name": "Burkina Faso",
+    "code": "bf",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Burundi",
+    "code": "bi",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Cabo Verde",
+    "code": "cv",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Cameroon",
+    "code": "cm",
+    "region": "Africa",
+    "subregion": "Central Africa"
+  },
+  {
+    "name": "Central African Republic",
+    "code": "cf",
+    "region": "Africa",
+    "subregion": "Central Africa"
+  },
+  {
+    "name": "Chad",
+    "code": "td",
+    "region": "Africa",
+    "subregion": "Central Africa"
+  },
+  {
+    "name": "Comoros",
+    "code": "km",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Congo",
+    "code": "cg",
+    "region": "Africa",
+    "subregion": "Central Africa"
+  },
+  {
+    "name": "Democratic Republic of the Congo",
+    "code": "cd",
+    "region": "Africa",
+    "subregion": "Central Africa"
+  },
+  {
+    "name": "Djibouti",
+    "code": "dj",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Egypt",
+    "code": "eg",
+    "region": "Africa",
+    "subregion": "North Africa"
+  },
+  {
+    "name": "Equatorial Guinea",
+    "code": "gq",
+    "region": "Africa",
+    "subregion": "Central Africa"
+  },
+  {
+    "name": "Eritrea",
+    "code": "er",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Eswatini",
+    "code": "sz",
+    "region": "Africa",
+    "subregion": "Southern Africa"
+  },
+  {
+    "name": "Ethiopia",
+    "code": "et",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Gabon",
+    "code": "ga",
+    "region": "Africa",
+    "subregion": "Central Africa"
+  },
+  {
+    "name": "Gambia",
+    "code": "gm",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Ghana",
+    "code": "gh",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Guinea",
+    "code": "gn",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Guinea-Bissau",
+    "code": "gw",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Côte d'Ivoire",
+    "code": "ci",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Kenya",
+    "code": "ke",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Lesotho",
+    "code": "ls",
+    "region": "Africa",
+    "subregion": "Southern Africa"
+  },
+  {
+    "name": "Liberia",
+    "code": "lr",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Libya",
+    "code": "ly",
+    "region": "Africa",
+    "subregion": "North Africa"
+  },
+  {
+    "name": "Madagascar",
+    "code": "mg",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Malawi",
+    "code": "mw",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Mali",
+    "code": "ml",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Mauritania",
+    "code": "mr",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Mauritius",
+    "code": "mu",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Morocco",
+    "code": "ma",
+    "region": "Africa",
+    "subregion": "North Africa"
+  },
+  {
+    "name": "Mozambique",
+    "code": "mz",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Namibia",
+    "code": "na",
+    "region": "Africa",
+    "subregion": "Southern Africa"
+  },
+  {
+    "name": "Niger",
+    "code": "ne",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Nigeria",
+    "code": "ng",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Rwanda",
+    "code": "rw",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "São Tomé and Príncipe",
+    "code": "st",
+    "region": "Africa",
+    "subregion": "Central Africa"
+  },
+  {
+    "name": "Senegal",
+    "code": "sn",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Seychelles",
+    "code": "sc",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Sierra Leone",
+    "code": "sl",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Somalia",
+    "code": "so",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "South Africa",
+    "code": "za",
+    "region": "Africa",
+    "subregion": "Southern Africa"
+  },
+  {
+    "name": "South Sudan",
+    "code": "ss",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Sudan",
+    "code": "sd",
+    "region": "Africa",
+    "subregion": "North Africa"
+  },
+  {
+    "name": "Tanzania",
+    "code": "tz",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Togo",
+    "code": "tg",
+    "region": "Africa",
+    "subregion": "West Africa"
+  },
+  {
+    "name": "Tunisia",
+    "code": "tn",
+    "region": "Africa",
+    "subregion": "North Africa"
+  },
+  {
+    "name": "Uganda",
+    "code": "ug",
+    "region": "Africa",
+    "subregion": "East Africa"
+  },
+  {
+    "name": "Zambia",
+    "code": "zm",
+    "region": "Africa",
+    "subregion": "Southern Africa"
+  },
+  {
+    "name": "Zimbabwe",
+    "code": "zw",
+    "region": "Africa",
+    "subregion": "Southern Africa"
+  }
+]

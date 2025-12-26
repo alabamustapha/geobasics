@@ -1,0 +1,221 @@
+:root{
+  --bg:#0b1220;
+  --card:#101a2e;
+  --text:#e8eefc;
+  --muted:#b6c2e2;
+  --line:#223252;
+  --btn:#2f6bff;
+  --btn2:#1d2a47;
+  --good:#36d399;
+  --bad:#fb7185;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 800px at 20% 0%, #14244a, var(--bg));
+  color:var(--text);
+}
+
+.header{
+  padding:24px 16px 8px;
+  text-align:center;
+}
+.header h1{margin:0 0 6px; font-size:28px}
+.sub{margin:0; color:var(--muted)}
+
+.container{
+  max-width:900px;
+  margin: 0 auto;
+  padding:16px;
+}
+
+.card{
+  background: rgba(16,26,46,0.9);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+.hidden{display:none !important;}
+
+.row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.row-actions{
+  margin-top:14px;
+  justify-content:space-between;
+}
+
+.label{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-width:240px;
+  color:var(--muted);
+  font-size:14px;
+}
+select, input[type="text"]{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:#0c152a;
+  color:var(--text);
+  outline:none;
+}
+input[type="text"]::placeholder{color:#8190b7}
+
+.sep{
+  border:none;
+  border-top:1px solid var(--line);
+  margin:14px 0;
+}
+
+.pill{
+  display:inline-flex;
+  gap:10px;
+  align-items:center;
+  border:1px solid var(--line);
+  background:#0c152a;
+  padding:10px 12px;
+  border-radius:999px;
+  color:var(--muted);
+  cursor:pointer;
+}
+.pill input{transform:scale(1.05)}
+
+.btn{
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:var(--btn2);
+  color:var(--text);
+  cursor:pointer;
+  font-weight:600;
+}
+.btn:hover{filter:brightness(1.08)}
+.btn-primary{
+  background:var(--btn);
+  border-color: rgba(255,255,255,.12);
+}
+.btn-ghost{
+  background:transparent;
+}
+
+.hint{color:var(--muted); margin-top:12px}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-bottom:14px;
+}
+.badge{
+  display:inline-flex;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#0c152a;
+  border:1px solid var(--line);
+  color:var(--text);
+  font-size:13px;
+}
+.badge-soft{color:var(--muted)}
+.meta{display:flex; gap:8px; flex-wrap:wrap}
+.score{display:flex; gap:14px; color:var(--muted)}
+
+.question-area{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.prompt{
+  font-size:18px;
+  font-weight:700;
+}
+
+.flag-holder{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0c152a;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+}
+.flag-holder img{
+  width:min(360px, 80vw);
+  height:auto;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+#answerForm{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.options{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap:10px;
+}
+
+.option-btn{
+  text-align:left;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#0c152a;
+  color:var(--text);
+  cursor:pointer;
+  font-weight:650;
+}
+.option-btn:hover{filter:brightness(1.08)}
+.option-btn.good{border-color: rgba(54,211,153,.55)}
+.option-btn.bad{border-color: rgba(251,113,133,.55)}
+
+.feedback{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  padding-top:6px;
+}
+#feedbackText{color:var(--muted); font-weight:700}
+#feedbackText.good{color:var(--good)}
+#feedbackText.bad{color:var(--bad)}
+
+.footerbar{
+  margin-top:16px;
+  display:flex;
+  justify-content:flex-end;
+}
+
+.big{font-size:18px; color:var(--muted)}
+.review{
+  margin-top:14px;
+  display:grid;
+  gap:10px;
+}
+.review-item{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:10px 12px;
+  background:#0c152a;
+  color:var(--muted);
+}
+.review-item strong{color:var(--text)}
+.footer{padding:18px; text-align:center; color:var(--muted)}
+code{color:#cfe1ff}
