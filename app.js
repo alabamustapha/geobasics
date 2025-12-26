@@ -72,9 +72,13 @@ const optionsEl = $("options");
 
 const feedbackText = $("feedbackText");
 
+const fxLayer = $("fxLayer");
+
 const finalScoreEl = $("finalScore");
 const finalTotalEl = $("finalTotal");
 const reviewEl = $("review");
+const missedWrap = $("missedWrap");
+const missedList = $("missedList");
 
 const playAgainBtn = $("playAgainBtn");
 const backToMenuBtn = $("backToMenuBtn");
@@ -139,6 +143,50 @@ function setFeedback(text, kind) {
   feedbackText.textContent = text;
   feedbackText.classList.remove("good", "bad");
   if (kind) feedbackText.classList.add(kind);
+}
+
+// ---------- FX: Confetti & Floating Answer ----------
+const CONFETTI_COLORS = {
+  good: ["#36d399", "#8bffd1", "#1fbd75", "#c8fcea", "#62f3c3"],
+  bad: ["#fb7185", "#ffb3c1", "#ff5f5f", "#ff9e9e", "#ffc0cb"]
+};
+
+function spawnConfetti(isCorrect) {
+  if (!fxLayer) return;
+  const colors = isCorrect ? CONFETTI_COLORS.good : CONFETTI_COLORS.bad;
+  const count = 45;
+
+  for (let i = 0; i < count; i++) {
+    const piece = document.createElement("div");
+    piece.className = "confetti-piece";
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.width = `${8 + Math.random() * 6}px`;
+    piece.style.height = `${12 + Math.random() * 6}px`;
+    piece.style.setProperty("--dur", `${1.2 + Math.random() * 0.7}s`);
+    piece.style.setProperty("--dx", `${Math.random() * 140 - 70}px`);
+    piece.style.setProperty("--rot", `${Math.random() * 180}deg`);
+    fxLayer.appendChild(piece);
+
+    setTimeout(() => piece.remove(), 2300);
+  }
+}
+
+function spawnAnswerFloat(name, isCorrect) {
+  if (!fxLayer) return;
+  const bubble = document.createElement("div");
+  bubble.className = "answer-float";
+  bubble.textContent = `Correct answer: ${name}`;
+  bubble.style.borderColor = isCorrect ? "rgba(54,211,153,.6)" : "rgba(251,113,133,.6)";
+  bubble.style.color = isCorrect ? "#d7fff0" : "#ffdfe5";
+  fxLayer.appendChild(bubble);
+
+  setTimeout(() => bubble.remove(), 1900);
+}
+
+function triggerCelebration({ isCorrect, correctName }) {
+  spawnConfetti(isCorrect);
+  spawnAnswerFloat(correctName, isCorrect);
 }
 
 // ---------- Game flow ----------
@@ -282,6 +330,8 @@ function checkAnswer({ pickedName, pickedCode, typedText } = {}) {
     setFeedback(`❌ Oops! Correct answer: ${correct.name}`, "bad");
   }
 
+  triggerCelebration({ isCorrect, correctName: correct.name });
+
   // Save review record
   lastResults.push({
     region: correct.region,
@@ -326,6 +376,30 @@ function endGame() {
     `;
     reviewEl.appendChild(div);
   });
+
+  // Missed answers
+  missedList.innerHTML = "";
+  const missed = lastResults.filter(r => !r.wasCorrect);
+  if (missed.length === 0) {
+    missedWrap.classList.add("hidden");
+  } else {
+    missedWrap.classList.remove("hidden");
+    missed.forEach((r, idx) => {
+      const div = document.createElement("div");
+      div.className = "review-item";
+      div.innerHTML = `
+        <div><strong>#${idx + 1}</strong> ${r.correctName}</div>
+        <div style="margin-top:6px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <img src="${flagUrl(r.correctCode)}" alt="Flag of ${r.correctName}" style="width:72px;border-radius:8px;border:1px solid rgba(255,255,255,.08);" />
+          <div>
+            <div style="color:var(--muted)">Correct: <strong>${r.correctName}</strong></div>
+            <div style="color:var(--muted)">You answered: <strong>${r.picked || "(blank)"}</strong></div>
+          </div>
+        </div>
+      `;
+      missedList.appendChild(div);
+    });
+  }
 }
 
 function quitToMenu() {
