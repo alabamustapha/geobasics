@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Country Flags – GeoBasics</title>
+  <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+  <div class="game-page">
+
+    <!-- ── SETUP SCREEN ── -->
+    <section id="screen-setup">
+      <h1>🏳️ Country Flags</h1>
+      <p class="subtitle">Pick a game mode and start playing!</p>
+
+      <div class="card">
+        <span class="setup-label">How do you want to play?</span>
+        <div class="mode-cards">
+          <div class="mode-card active" data-type="flagToName" id="modeFlag">
+            <div class="mode-icon">🏳️</div>
+            <div class="mode-title">See the Flag</div>
+            <div class="mode-sub">Name the country</div>
+          </div>
+          <div class="mode-card" data-type="nameToFlag" id="modeName">
+            <div class="mode-icon">🌍</div>
+            <div class="mode-title">See the Name</div>
+            <div class="mode-sub">Pick the flag</div>
+          </div>
+        </div>
+
+        <span class="setup-label">Choose a Region</span>
+        <select id="regionSelect"></select>
+
+        <span class="setup-label">Number of Questions</span>
+        <div class="q-count-row" id="qCountRow">
+          <button class="q-count-btn" data-n="5">5</button>
+          <button class="q-count-btn active" data-n="10">10</button>
+          <button class="q-count-btn" data-n="15">15</button>
+          <button class="q-count-btn" data-n="20">20</button>
+        </div>
+
+        <button class="btn-start" id="startBtn">Let's Play! 🎮</button>
+        <a href="index.html" class="back-link">← Back to Menu</a>
+      </div>
+    </section>
+
+    <!-- ── GAME SCREEN ── -->
+    <section id="screen-game" class="hidden" style="width:100%;max-width:680px;">
+      <div class="game-hud">
+        <span>Question <strong id="qIndex">1</strong> of <strong id="qTotal">10</strong></span>
+        <span class="hud-score">⭐ <strong id="score">0</strong></span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+      </div>
+
+      <div class="card">
+        <div class="prompt" id="prompt"></div>
+
+        <div class="flag-holder hidden" id="flagHolder">
+          <img id="flagImg" alt="Flag" />
+        </div>
+
+        <div id="options"></div>
+
+        <div class="feedback-bar hidden" id="feedbackBar"></div>
+
+        <button class="btn-next hidden" id="nextBtn">Next ➜</button>
+        <button class="btn-quit" id="quitBtn">Quit</button>
+      </div>
+    </section>
+
+    <!-- ── RESULT SCREEN ── -->
+    <section id="screen-result" class="hidden" style="width:100%;max-width:680px;">
+      <div class="card">
+        <div class="result-hero">
+          <div class="trophy" id="trophyEmoji">🏆</div>
+          <h2 id="resultHeading">Well done!</h2>
+          <div class="score-big">
+            <span id="finalScore">0</span><span> / <span id="finalTotal">0</span></span>
+          </div>
+          <div class="result-label" id="resultLabel"></div>
+        </div>
+
+        <div class="review-grid" id="reviewGrid"></div>
+
+        <button class="btn-play-again" id="playAgainBtn">Play Again! 🎮</button>
+        <a href="index.html" class="back-link" style="margin-top:12px;">← Back to Menu</a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FX Layer -->
+  <div class="fx-layer" id="fxLayer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

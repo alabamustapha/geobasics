@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Configure – GeoBasics</title>
+  <link rel="stylesheet" href="main.css" />
+</head>
+<body>
+  <div class="config-page">
+
+    <div class="config-header">
+      <a href="index.html" class="back-link">← Menu</a>
+      <h1>⚙️ Configure Games</h1>
+      <p class="subtitle">Choose which countries appear in each game.</p>
+    </div>
+
+    <!-- ── Country Flags Section ── -->
+    <div class="config-section">
+      <div class="config-section-title">
+        <span class="config-section-icon">🏳️</span>
+        <span>Country Flags</span>
+      </div>
+
+      <!-- Controls bar -->
+      <div class="config-controls">
+        <div class="bulk-btns">
+          <button class="btn-bulk btn-bulk-on" id="allOnBtn">✅ All On</button>
+          <button class="btn-bulk btn-bulk-off" id="allOffBtn">❌ All Off</button>
+        </div>
+        <div class="filter-selects">
+          <select id="regionFilter" class="region-filter-select">
+            <option value="__ALL__">All Regions</option>
+          </select>
+          <select id="subregionFilter" class="region-filter-select">
+            <option value="__ALL__">All Sub-regions</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="config-stats" id="configStats">
+        Loading…
+      </div>
+
+      <!-- Country list -->
+      <div class="country-list" id="countryList">
+        <!-- Populated by config.js -->
+      </div>
+
+      <!-- Actions -->
+      <div class="config-actions">
+        <button class="btn-action btn-save" id="saveBtn">💾 Save</button>
+        <button class="btn-action btn-export" id="exportBtn">⬇ Export JSON</button>
+        <label class="btn-action btn-import" id="importLabel">
+          ⬆ Import JSON
+          <input type="file" id="importInput" accept=".json" style="display:none" />
+        </label>
+        <button class="btn-action btn-reset" id="resetBtn">↩ Reset Defaults</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="config.js"></script>
+</body>
+</html>
