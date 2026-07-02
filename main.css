@@ -254,6 +254,41 @@ select:focus { border-color: var(--primary); }
 .q-count-btn:hover { border-color: var(--primary); background: #eef3ff; }
 .q-count-btn.active { border-color: var(--primary); background: #eef3ff; color: var(--primary); }
 
+/* Region chips (multi-select) */
+.region-toggle-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.region-chip {
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: #f8faff;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color .15s, background .15s, color .15s;
+}
+
+.region-chip:hover { border-color: var(--primary); background: #eef3ff; }
+
+.region-chip.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
+
+.region-chip.chip-all { border-style: dashed; }
+.region-chip.chip-all.active { border-style: solid; }
+.region-chip:disabled { opacity: .5; cursor: not-allowed; }
+
+.picker-block { margin-bottom: 16px; }
+.picker-label { font-size: 14px; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+
 /* Start button */
 .btn-start {
   width: 100%;
@@ -586,6 +621,7 @@ select:focus { border-color: var(--primary); }
 .full-mode .big { font-size: 36px; }
 .full-mode .flag-holder img { width: min(560px, 94vw); }
 .full-mode .btn { padding: 14px 18px; font-size: 18px; }
+.container .card + .card { margin-top: 16px; }
 
 /* ── Config Page ── */
 .config-page {

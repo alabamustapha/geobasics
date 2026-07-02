@@ -32,6 +32,10 @@ let score = 0;
 let questionType = "flagToName";
 let totalQuestions = 10;
 let lastResults = [];
+let selectedRegions = new Set();
+let allRegionsMode = true;
+let selectedSubregions = new Set();
+let allSubregionsMode = true;
 
 // ── Elements ──
 const screens = {
@@ -40,7 +44,8 @@ const screens = {
   result: $("screen-result")
 };
 
-const regionSelect = $("regionSelect");
+const regionToggleRow = $("regionToggleRow");
+const subregionToggleRow = $("subregionToggleRow");
 const startBtn = $("startBtn");
 const quitBtn = $("quitBtn");
 const nextBtn = $("nextBtn");
@@ -93,7 +98,7 @@ function getIncludedCodes() {
   if (saved) {
     try {
       const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed.included) && parsed.included.length > 0) {
+      if (Array.isArray(parsed.included)) {
         return new Set(parsed.included);
       }
     } catch { /* fall through */ }
@@ -102,13 +107,111 @@ function getIncludedCodes() {
 }
 
 // ── Setup UI ──
-function buildRegionSelect() {
+function buildRegionToggles() {
   const includedCodes = getIncludedCodes();
   const regions = unique(DB.filter(c => includedCodes.has(c.code)).map(c => c.region)).sort();
-  regionSelect.innerHTML = [
-    `<option value="__ALL__">🌍 All Regions</option>`,
-    ...regions.map(r => `<option value="${r}">${r}</option>`)
-  ].join("");
+
+  selectedRegions = new Set();
+  allRegionsMode = true;
+  regionToggleRow.innerHTML = "";
+
+  const allChip = document.createElement("button");
+  allChip.type = "button";
+  allChip.className = "region-chip chip-all active";
+  allChip.textContent = "🌍 All Regions";
+  allChip.addEventListener("click", () => {
+    allRegionsMode = true;
+    selectedRegions.clear();
+    refreshRegionChipStates();
+    buildSubregionToggles();
+  });
+  regionToggleRow.appendChild(allChip);
+
+  regions.forEach(region => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "region-chip";
+    chip.textContent = region;
+    chip.dataset.region = region;
+    chip.addEventListener("click", () => {
+      allRegionsMode = false;
+      if (selectedRegions.has(region)) {
+        selectedRegions.delete(region);
+      } else {
+        selectedRegions.add(region);
+      }
+      if (selectedRegions.size === 0) allRegionsMode = true;
+      refreshRegionChipStates();
+      buildSubregionToggles();
+    });
+    regionToggleRow.appendChild(chip);
+  });
+
+  buildSubregionToggles();
+}
+
+function refreshRegionChipStates() {
+  [...regionToggleRow.children].forEach(chip => {
+    if (chip.classList.contains("chip-all")) {
+      chip.classList.toggle("active", allRegionsMode);
+    } else {
+      chip.classList.toggle("active", !allRegionsMode && selectedRegions.has(chip.dataset.region));
+    }
+  });
+}
+
+// Sub-region chips depend on which regions are currently active, so they're rebuilt
+// (and reset to "All") every time the region selection changes.
+function buildSubregionToggles() {
+  const includedCodes = getIncludedCodes();
+  const activeCountries = DB.filter(c =>
+    includedCodes.has(c.code) && (allRegionsMode || selectedRegions.has(c.region))
+  );
+  const subregions = unique(activeCountries.map(c => c.subregion)).sort();
+
+  selectedSubregions = new Set();
+  allSubregionsMode = true;
+  subregionToggleRow.innerHTML = "";
+
+  const allChip = document.createElement("button");
+  allChip.type = "button";
+  allChip.className = "region-chip chip-all active";
+  allChip.textContent = "🗺️ All Sub-regions";
+  allChip.addEventListener("click", () => {
+    allSubregionsMode = true;
+    selectedSubregions.clear();
+    refreshSubregionChipStates();
+  });
+  subregionToggleRow.appendChild(allChip);
+
+  subregions.forEach(subregion => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "region-chip";
+    chip.textContent = subregion;
+    chip.dataset.subregion = subregion;
+    chip.addEventListener("click", () => {
+      allSubregionsMode = false;
+      if (selectedSubregions.has(subregion)) {
+        selectedSubregions.delete(subregion);
+      } else {
+        selectedSubregions.add(subregion);
+      }
+      if (selectedSubregions.size === 0) allSubregionsMode = true;
+      refreshSubregionChipStates();
+    });
+    subregionToggleRow.appendChild(chip);
+  });
+}
+
+function refreshSubregionChipStates() {
+  [...subregionToggleRow.children].forEach(chip => {
+    if (chip.classList.contains("chip-all")) {
+      chip.classList.toggle("active", allSubregionsMode);
+    } else {
+      chip.classList.toggle("active", !allSubregionsMode && selectedSubregions.has(chip.dataset.subregion));
+    }
+  });
 }
 
 function setupModeCards() {
@@ -151,20 +254,17 @@ function buildFlagOptions(pool, correctCode, k = 4) {
 
 // ── Game flow ──
 function startGame() {
-  const region = regionSelect.value;
-
   // Always re-read config at game start so the latest saved settings are applied
   const includedCodes = getIncludedCodes();
   const enabledDB = DB.filter(c => includedCodes.has(c.code));
 
-  if (region === "__ALL__") {
-    currentPool = enabledDB;
-  } else {
-    currentPool = enabledDB.filter(c => c.region === region);
-  }
+  currentPool = enabledDB.filter(c =>
+    (allRegionsMode || selectedRegions.has(c.region)) &&
+    (allSubregionsMode || selectedSubregions.has(c.subregion))
+  );
 
   if (currentPool.length < 4) {
-    alert("Not enough countries in this region (need at least 4). Please choose a different region.");
+    alert("Not enough countries in the selected region(s)/sub-region(s) (need at least 4). Please choose different options.");
     return;
   }
 
@@ -223,6 +323,7 @@ function renderFlagOptions(correct) {
   codes.forEach(code => {
     const btn = document.createElement("button");
     btn.className = "option-btn flag-opt";
+    btn.dataset.code = code;
     btn.innerHTML = `<img src="${flagUrl(code)}" alt="Flag option" />`;
     btn.addEventListener("click", () => checkAnswer(btn, code === correct.code, correct));
     optionsEl.appendChild(btn);
@@ -245,8 +346,9 @@ function checkAnswer(clickedBtn, isCorrect, correct) {
         if (b.textContent === correct.name) b.classList.add("correct");
       });
     } else {
-      // For flag mode, we can't easily highlight the correct flag btn without tracking
-      // So just show in feedback
+      [...optionsEl.querySelectorAll("button")].forEach(b => {
+        if (b.dataset.code === correct.code) b.classList.add("correct");
+      });
     }
   }
 
@@ -361,7 +463,7 @@ playAgainBtn.addEventListener("click", () => {
 (async function init() {
   try {
     await loadData();
-    buildRegionSelect();
+    buildRegionToggles();
     setupModeCards();
     setupQCountButtons();
     showScreen("setup");
